@@ -1,12 +1,27 @@
 package aplikasipemesanamenu;
 
 import java.awt.print.PrinterException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 
 public class MenuPage extends javax.swing.JFrame {
-    
+
     private int subtotal = 0;
     private int x = 0;
     private double pajak = 0;
@@ -23,11 +38,11 @@ public class MenuPage extends javax.swing.JFrame {
         setExtendedState(MenuPage.MAXIMIZED_BOTH);
 
     }
-    
+
     public void setTime() {
         MethodClass.setTime(waktuLabel, tanggalLabel);
     }
-    
+
     public void setImg() {
         MethodClass.setIconLabel(picMenu1, "/Image/1combomeals.jpg");
         MethodClass.setIconLabel(picMenu2, "/Image/1chickencombo.jpg");
@@ -38,33 +53,35 @@ public class MenuPage extends javax.swing.JFrame {
         MethodClass.setIconLabel(picMenu7, "/Image/3applecrumble.jpg");
         MethodClass.setIconLabel(picMenu8, "/Image/3cremebrulee.jpg");
     }
-    
+
     public void reset() {
-        outPesanan.setText("");
-        outSubtotal.setText("");
-        outPajak.setText("");
-        outTotal.setText("");
-        inTunai.setText("");
-        inNamaCust.setText("");
-        inNoMeja.setText("");
+//Method yang digunakan untuk mereset semua nilai yang ada
+        x = 0;
+        subtotal = 0;
+        pajak = 0.0;
+        PPN = 0;
+        total = 0;
+        tunai = 0;
         qtyMenu1.setValue(0);
         qtyMenu2.setValue(0);
         qtyMenu3.setValue(0);
         qtyMenu4.setValue(0);
         qtyMenu5.setValue(0);
-        qtyMenu6.setValue(0);
-        qtyMenu7.setValue(0);
         qtyMenu8.setValue(0);
+        outSubtotal.setText("");
+        outPajak.setText("");
+        outTotal.setText("");
+        inTunai.setText("");
+        outPesanan.setText("");
         addMenu1.setSelected(false);
         addMenu2.setSelected(false);
         addMenu3.setSelected(false);
         addMenu4.setSelected(false);
         addMenu5.setSelected(false);
-        addMenu6.setSelected(false);
-        addMenu7.setSelected(false);
         addMenu8.setSelected(false);
+        btnBayar.setEnabled(true);
     }
-    
+
     public void hitung() {
         pajak = subtotal * 0.11;
         PPN = (int) Math.round(pajak);
@@ -73,7 +90,7 @@ public class MenuPage extends javax.swing.JFrame {
         outPajak.setText("Rp. " + String.valueOf(PPN));
         outTotal.setText("Rp. " + String.valueOf(total));
     }
-    
+
     public void orderList() {
         //Method yang digunakan untuk mencetak teks di JTextArea
         outPesanan.setText("******************* Sepanjang Rasa *******************\n"
@@ -81,7 +98,97 @@ public class MenuPage extends javax.swing.JFrame {
                 + "******************************************************" + "\n"
                 + String.format("%-25s%5s%15s", "   Produk", "jumlah", "Total") + "\n");
     }
-    
+
+    private List<Map<String, Object>> orders = new ArrayList<>();
+
+    public void prosesOrder(JSpinner qtyMenu, JCheckBox addMenu, JLabel labelMenu, int idProduk) {
+        int qty = Integer.parseInt(qtyMenu.getValue().toString()); // Ambil nilai qty dari spinner
+
+        if (qty > 0 && addMenu.isSelected()) { // Cek apakah qty > 0 dan checkbox dicentang
+            try (Connection conn = DBConnection.getConnection()) {
+                // Ambil data produk dari database
+                String querySelect = "SELECT stok, harga, nama FROM tb_produk WHERE id_produk = ?";
+                PreparedStatement stmtSelect = conn.prepareStatement(querySelect);
+                stmtSelect.setInt(1, idProduk);
+                ResultSet rs = stmtSelect.executeQuery();
+
+                if (rs.next()) { // Jika data produk ditemukan
+                    int stok = rs.getInt("stok");
+                    int harga = rs.getInt("harga");
+                    String namaProduk = rs.getString("nama");
+
+                    // Cek apakah stok cukup
+                    if (stok >= qty) {
+                        int totalHarga = qty * harga;
+
+                        // Tambahkan ke pesanan sementara
+                        Map<String, Object> order = new HashMap<>();
+                        order.put("id_produk", idProduk);
+                        order.put("nama_produk", namaProduk);
+                        order.put("qty", qty);
+                        order.put("harga_total", totalHarga);
+                        order.put("stok_akhir", stok - qty);
+                        orders.add(order);
+
+                        // Perbarui subtotal
+                        subtotal += totalHarga;
+
+                        // Perbarui tampilan outPesanan
+                        updateOutPesanan();
+
+                        // Hitung subtotal, pajak, dan total
+                        hitung();
+
+                    } else { // Jika stok tidak mencukupi
+                        JOptionPane.showMessageDialog(null,
+                                "Stok tidak mencukupi untuk " + namaProduk,
+                                "Stok Tidak Cukup",
+                                JOptionPane.ERROR_MESSAGE);
+                        addMenu.setSelected(false); // Batalkan checkbox
+                    }
+                } else { // Jika produk tidak ditemukan di database
+                    JOptionPane.showMessageDialog(null,
+                            "Produk tidak ditemukan di database!",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    addMenu.setSelected(false); // Batalkan checkbox
+                }
+            } catch (SQLException e) { // Tangani error database
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null,
+                        "Terjadi kesalahan pada database: " + e.getMessage(),
+                        "Database Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } else if (qty == 0 || !addMenu.isSelected()) { // Jika qty = 0 atau checkbox tidak dicentang
+            JOptionPane.showMessageDialog(null,
+                    "Silakan masukkan jumlah qty yang valid dan centang checkbox!",
+                    "Input Tidak Valid",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+// Method untuk memperbarui tampilan di JTextArea
+    private void updateOutPesanan() {
+        // Header sesuai format orderList
+        StringBuilder pesananText = new StringBuilder("******************* Sepanjang Rasa *******************\n");
+        pesananText.append("Time: ").append(waktuLabel.getText()).append(" Date: ").append(tanggalLabel.getText()).append("\n");
+        pesananText.append("******************************************************\n");
+        pesananText.append(String.format("%-25s%5s%15s\n", "   Produk", "jumlah", "Total"));
+
+        // Tambahkan setiap pesanan ke dalam JTextArea
+        for (Map<String, Object> order : orders) {
+            String namaProduk = (String) order.get("nama_produk");
+            int qty = (int) order.get("qty");
+            int hargaTotal = (int) order.get("harga_total");
+
+            pesananText.append(String.format("%-25s%5d%15d\n", namaProduk, qty, hargaTotal));
+        }
+
+        // Perbarui tampilan ke JTextArea
+        outPesanan.setText(pesananText.toString());
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -238,6 +345,7 @@ public class MenuPage extends javax.swing.JFrame {
         jLabel51.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel51.setText("Nomor Meja");
 
+        outPesanan.setEditable(false);
         outPesanan.setColumns(20);
         outPesanan.setRows(5);
         jScrollPane1.setViewportView(outPesanan);
@@ -418,8 +526,16 @@ public class MenuPage extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Jumlah");
 
+        addMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addMenu1ActionPerformed(evt);
+            }
+        });
+
         hargaMenu1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         hargaMenu1.setText("Rp 69.000");
+
+        qtyMenu1.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("Tambahkan");
@@ -475,6 +591,12 @@ public class MenuPage extends javax.swing.JFrame {
         panelMenu5.setRoundTopLeft(10);
         panelMenu5.setRoundTopRight(10);
 
+        addMenu5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addMenu5ActionPerformed(evt);
+            }
+        });
+
         picMenu5.setBackground(new java.awt.Color(255, 255, 255));
 
         hargaMenu5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -485,6 +607,8 @@ public class MenuPage extends javax.swing.JFrame {
 
         jLabel28.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel28.setText("Harga");
+
+        qtyMenu5.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
         labelMenu5.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         labelMenu5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -553,11 +677,19 @@ public class MenuPage extends javax.swing.JFrame {
         labelMenu6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelMenu6.setText("Lemon Cucumber");
 
+        qtyMenu6.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+
         jLabel34.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel34.setText("Harga");
 
         jLabel36.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel36.setText("Tambahkan");
+
+        addMenu6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addMenu6ActionPerformed(evt);
+            }
+        });
 
         jLabel35.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel35.setText("Jumlah");
@@ -617,8 +749,16 @@ public class MenuPage extends javax.swing.JFrame {
         labelMenu2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelMenu2.setText("Chicken Combo ");
 
+        addMenu2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addMenu2ActionPerformed(evt);
+            }
+        });
+
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel12.setText("Tambahkan");
+
+        qtyMenu2.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setText("Jumlah");
@@ -697,8 +837,16 @@ public class MenuPage extends javax.swing.JFrame {
         jLabel40.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel40.setText("Harga");
 
+        addMenu7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addMenu7ActionPerformed(evt);
+            }
+        });
+
         jLabel42.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel42.setText("Tambahkan");
+
+        qtyMenu7.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
         javax.swing.GroupLayout panelMenu7Layout = new javax.swing.GroupLayout(panelMenu7);
         panelMenu7.setLayout(panelMenu7Layout);
@@ -754,6 +902,8 @@ public class MenuPage extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel15.setText("Harga");
 
+        qtyMenu3.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+
         hargaMenu3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         hargaMenu3.setText("Rp 69.000");
 
@@ -762,6 +912,12 @@ public class MenuPage extends javax.swing.JFrame {
         labelMenu3.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         labelMenu3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelMenu3.setText("T-Bone Steak");
+
+        addMenu3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addMenu3ActionPerformed(evt);
+            }
+        });
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel18.setText("Tambahkan");
@@ -820,6 +976,12 @@ public class MenuPage extends javax.swing.JFrame {
         panelMenu4.setRoundTopLeft(10);
         panelMenu4.setRoundTopRight(10);
 
+        addMenu4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addMenu4ActionPerformed(evt);
+            }
+        });
+
         labelMenu4.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         labelMenu4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelMenu4.setText("Rib Eye Steak");
@@ -829,6 +991,8 @@ public class MenuPage extends javax.swing.JFrame {
 
         hargaMenu4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         hargaMenu4.setText("Rp 69.000");
+
+        qtyMenu4.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
         jLabel21.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel21.setText("Harga");
@@ -896,8 +1060,16 @@ public class MenuPage extends javax.swing.JFrame {
         labelMenu8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelMenu8.setText("Creme Crumblee");
 
+        addMenu8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addMenu8ActionPerformed(evt);
+            }
+        });
+
         jLabel46.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel46.setText("Harga");
+
+        qtyMenu8.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
         jLabel48.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel48.setText("Tambahkan");
@@ -985,13 +1157,13 @@ public class MenuPage extends javax.swing.JFrame {
                     .addComponent(panelMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelMenu3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelMenu4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(panelBGLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelMenu6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelMenu5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelMenu7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelMenu8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(45, 45, 45))
+                .addGap(50, 50, 50))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1009,15 +1181,136 @@ public class MenuPage extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(topPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rightPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
-                    .addComponent(panelBG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(rightPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(panelBG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayarActionPerformed
-        // TODO add your handling code here:
+        int tunai = Integer.parseInt(inTunai.getText());
+        kembali = tunai - total;
+
+        if (tunai == 0) {
+            JOptionPane.showMessageDialog(null, "Masukkan nominal tunai");
+            return;
+        } else if (kembali < 0) {
+            JOptionPane.showMessageDialog(null, "Uang tunai tidak mencukupi");
+            return;
+        }
+
+        String inputMeja = this.inNoMeja.getText().trim(); // Ambil input No Meja
+        String namaPelanggan = this.inNamaCust.getText().trim(); // Ambil input Nama Pelanggan
+
+        if (inputMeja.isEmpty() || namaPelanggan.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Harap lengkapi semua input (No Meja, Nama Pelanggan)!");
+            return;
+        }
+
+        try (Connection conn = DBConnection.getConnection()) {
+            // Validasi Meja
+            String queryMeja = "SELECT * FROM tb_meja WHERE id_meja = ?";
+            PreparedStatement stmtMeja = conn.prepareStatement(queryMeja);
+            stmtMeja.setString(1, inputMeja);
+
+            ResultSet rsMeja = stmtMeja.executeQuery();
+
+            if (rsMeja.next()) {
+                int statusMeja = rsMeja.getInt("status");
+                String namaMeja = rsMeja.getString("nama");
+
+                if (statusMeja == 0) {
+                    JOptionPane.showMessageDialog(null, "Meja tidak tersedia!");
+                    return;
+                }
+
+                // Totalkan qty untuk semua pesanan
+                int totalQty = 0;
+                for (Map<String, Object> order : orders) {
+                    totalQty += (int) order.get("qty");
+                }
+
+                // Format tanggal dan waktu untuk ID Transaksi
+                SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyyHHmm");
+                Date date = new Date(); // Tanggal dan waktu saat ini
+                String idTransaksi = "TRX" + formatter.format(date); // Gabungkan prefix dengan tanggal-waktu
+
+                // Membuat format tanggal dan waktu sesuai format 'yyyy-MM-dd HH:mm:ss' untuk tipe DATETIME
+                SimpleDateFormat formatterDateTrx = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String formattedDate = formatterDateTrx.format(new Date());
+
+                // Query SQL untuk insert ke tb_transaksi
+                String queryInsertTransaksi = "INSERT INTO tb_transaksi (id_transaksi, id_produk, id_meja, nama_pel, tgl_transaksi, qty, subtotal, ppn, total_harga, tunai, kembalian, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+                PreparedStatement stmtInsertTransaksi = conn.prepareStatement(queryInsertTransaksi);
+
+                for (Map<String, Object> order : orders) {
+                    stmtInsertTransaksi.setString(1, idTransaksi);
+                    stmtInsertTransaksi.setInt(2, (int) order.get("id_produk"));
+                    stmtInsertTransaksi.setString(3, inputMeja);
+                    stmtInsertTransaksi.setString(4, namaPelanggan);
+                    stmtInsertTransaksi.setString(5, formattedDate);
+                    stmtInsertTransaksi.setInt(6, (int) order.get("qty"));
+                    stmtInsertTransaksi.setInt(7, subtotal);
+                    stmtInsertTransaksi.setInt(8, PPN);
+                    stmtInsertTransaksi.setInt(9, total);
+                    stmtInsertTransaksi.setInt(10, tunai);
+                    stmtInsertTransaksi.setInt(11, kembali);
+                    stmtInsertTransaksi.setInt(12, 1); // Status pembayaran selesai
+                    stmtInsertTransaksi.executeUpdate();
+                }
+
+                // Update status meja menjadi tidak tersedia
+                String queryUpdateMeja = "UPDATE tb_meja SET status = 0 WHERE id_meja = ?";
+                PreparedStatement stmtUpdateMeja = conn.prepareStatement(queryUpdateMeja);
+                stmtUpdateMeja.setString(1, inputMeja);
+                stmtUpdateMeja.executeUpdate();
+
+                // Kurangi stok produk di database
+                for (Map<String, Object> order : orders) {
+                    String queryUpdateStok = "UPDATE tb_produk SET stok = ? WHERE id_produk = ?";
+                    PreparedStatement stmtUpdateStok = conn.prepareStatement(queryUpdateStok);
+                    stmtUpdateStok.setInt(1, (int) order.get("stok_akhir"));
+                    stmtUpdateStok.setInt(2, (int) order.get("id_produk"));
+                    stmtUpdateStok.executeUpdate();
+                }
+
+                // Tambahkan detail pelanggan dan meja ke outPesanan
+                StringBuilder pesananText = new StringBuilder(outPesanan.getText());
+                pesananText.append("\n\n********************* Detail Transaksi *********************\n")
+                        .append("ID Transaksi: ").append(idTransaksi).append("\n")
+                        .append("Nama Pelanggan: ").append(namaPelanggan).append("\n")
+                        .append("Nomor Meja: ").append(inputMeja).append(" (").append(namaMeja).append(")\n")
+                        .append("Tanggal: ").append(formattedDate).append("\n")
+                        .append("\nSubtotal: Rp ").append(subtotal)
+                        .append("\nPajak 11%: Rp ").append(PPN)
+                        .append("\nTotal: Rp ").append(total)
+                        .append("\nTunai: Rp ").append(tunai)
+                        .append("\nKembalian: Rp ").append(kembali)
+                        .append("\n********************* Terima Kasih *********************\n");
+                outPesanan.setText(pesananText.toString());
+
+                JOptionPane.showMessageDialog(null, "Transaksi berhasil!");
+
+                // Reset pesanan
+                orders.clear();
+                btnBayar.setEnabled(false);
+                btnPrint.setEnabled(true);
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Nomor meja tidak ditemukan!");
+            }
+
+            rsMeja.close();
+            stmtMeja.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan saat memproses transaksi: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnBayarActionPerformed
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
@@ -1038,6 +1331,38 @@ public class MenuPage extends javax.swing.JFrame {
     private void inTunaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inTunaiActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inTunaiActionPerformed
+
+    private void addMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMenu1ActionPerformed
+        prosesOrder(qtyMenu1, addMenu1, labelMenu1, 103);
+    }//GEN-LAST:event_addMenu1ActionPerformed
+
+    private void addMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMenu2ActionPerformed
+        prosesOrder(qtyMenu2, addMenu2, labelMenu2, 102);
+    }//GEN-LAST:event_addMenu2ActionPerformed
+
+    private void addMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMenu3ActionPerformed
+        prosesOrder(qtyMenu3, addMenu3, labelMenu3, 101);
+    }//GEN-LAST:event_addMenu3ActionPerformed
+
+    private void addMenu4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMenu4ActionPerformed
+        prosesOrder(qtyMenu4, addMenu4, labelMenu4, 100);
+    }//GEN-LAST:event_addMenu4ActionPerformed
+
+    private void addMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMenu5ActionPerformed
+        prosesOrder(qtyMenu5, addMenu5, labelMenu5, 51);
+    }//GEN-LAST:event_addMenu5ActionPerformed
+
+    private void addMenu6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMenu6ActionPerformed
+        prosesOrder(qtyMenu6, addMenu6, labelMenu6, 52);
+    }//GEN-LAST:event_addMenu6ActionPerformed
+
+    private void addMenu7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMenu7ActionPerformed
+        prosesOrder(qtyMenu7, addMenu7, labelMenu7, 12);
+    }//GEN-LAST:event_addMenu7ActionPerformed
+
+    private void addMenu8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMenu8ActionPerformed
+        prosesOrder(qtyMenu8, addMenu8, labelMenu8, 11);
+    }//GEN-LAST:event_addMenu8ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -1066,7 +1391,7 @@ public class MenuPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             new MenuPage().setVisible(true);
-            
+
         });
     }
 

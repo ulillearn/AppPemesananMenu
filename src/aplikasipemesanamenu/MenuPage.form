@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -39,8 +39,11 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="topPanel" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="rightPanel" pref="715" max="32767" attributes="0"/>
-                  <Component id="panelBG" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="rightPanel" pref="719" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="panelBG" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
               </Group>
           </Group>
       </Group>
@@ -275,6 +278,7 @@
           <SubComponents>
             <Component class="javax.swing.JTextArea" name="outPesanan">
               <Properties>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="rows" type="int" value="5"/>
               </Properties>
@@ -511,14 +515,14 @@
                       <Component id="panelMenu3" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="panelMenu4" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="45" max="32767" attributes="0"/>
+                  <EmptySpace pref="44" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="panelMenu6" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="panelMenu5" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="panelMenu7" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="panelMenu8" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -627,6 +631,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="addMenu1">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addMenu1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="hargaMenu1">
               <Properties>
@@ -637,6 +644,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="qtyMenu1">
+              <Properties>
+                <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                  <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                </Property>
+              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel6">
               <Properties>
@@ -719,6 +731,9 @@
           </Layout>
           <SubComponents>
             <Component class="javax.swing.JCheckBox" name="addMenu5">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addMenu5ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="picMenu5">
               <Properties>
@@ -752,6 +767,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="qtyMenu5">
+              <Properties>
+                <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                  <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                </Property>
+              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="labelMenu5">
               <Properties>
@@ -867,6 +887,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="qtyMenu6">
+              <Properties>
+                <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                  <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                </Property>
+              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel34">
               <Properties>
@@ -885,6 +910,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="addMenu6">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addMenu6ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel35">
               <Properties>
@@ -976,6 +1004,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="addMenu2">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addMenu2ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel12">
               <Properties>
@@ -986,6 +1017,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="qtyMenu2">
+              <Properties>
+                <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                  <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                </Property>
+              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel11">
               <Properties>
@@ -1131,6 +1167,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="addMenu7">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addMenu7ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel42">
               <Properties>
@@ -1141,6 +1180,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="qtyMenu7">
+              <Properties>
+                <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                  <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                </Property>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -1223,6 +1267,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="qtyMenu3">
+              <Properties>
+                <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                  <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                </Property>
+              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="hargaMenu3">
               <Properties>
@@ -1249,6 +1298,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="addMenu3">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addMenu3ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel18">
               <Properties>
@@ -1339,6 +1391,9 @@
           </Layout>
           <SubComponents>
             <Component class="javax.swing.JCheckBox" name="addMenu4">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addMenu4ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="labelMenu4">
               <Properties>
@@ -1366,6 +1421,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="qtyMenu4">
+              <Properties>
+                <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                  <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                </Property>
+              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel21">
               <Properties>
@@ -1480,6 +1540,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="addMenu8">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addMenu8ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel46">
               <Properties>
@@ -1490,6 +1553,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="qtyMenu8">
+              <Properties>
+                <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                  <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                </Property>
+              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel48">
               <Properties>
