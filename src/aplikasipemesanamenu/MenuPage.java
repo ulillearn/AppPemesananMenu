@@ -54,7 +54,7 @@ public class MenuPage extends javax.swing.JFrame {
     }
 
     public void reset() {
-//Method yang digunakan untuk mereset semua nilai yang ada
+        //Method yang digunakan untuk mereset semua nilai yang ada
         x = 0;
         subtotal = 0;
         pajak = 0.0;
@@ -70,6 +70,8 @@ public class MenuPage extends javax.swing.JFrame {
         outSubtotal.setText("");
         outPajak.setText("");
         outTotal.setText("");
+        inNamaCust.setText("");
+        inNoMeja.setText("");
         inTunai.setText("");
         outPesanan.setText("");
         addMenu1.setSelected(false);
@@ -78,7 +80,8 @@ public class MenuPage extends javax.swing.JFrame {
         addMenu4.setSelected(false);
         addMenu5.setSelected(false);
         addMenu8.setSelected(false);
-        btnBayar.setEnabled(true);
+        // Reset list pesanan
+        orders.clear();
     }
 
     public void hitung() {
