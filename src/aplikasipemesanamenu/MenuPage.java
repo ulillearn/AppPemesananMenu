@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
@@ -518,7 +517,7 @@ public class MenuPage extends javax.swing.JFrame {
 
         labelMenu1.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         labelMenu1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelMenu1.setText("Combo Meals");
+        labelMenu1.setText("Combo Sharing Meals");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Harga");
@@ -533,7 +532,7 @@ public class MenuPage extends javax.swing.JFrame {
         });
 
         hargaMenu1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        hargaMenu1.setText("Rp 69.000");
+        hargaMenu1.setText("Rp 241.000");
 
         qtyMenu1.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
@@ -600,7 +599,7 @@ public class MenuPage extends javax.swing.JFrame {
         picMenu5.setBackground(new java.awt.Color(255, 255, 255));
 
         hargaMenu5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        hargaMenu5.setText("Rp 69.000");
+        hargaMenu5.setText("Rp 45.000");
 
         jLabel30.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel30.setText("Tambahkan");
@@ -612,7 +611,7 @@ public class MenuPage extends javax.swing.JFrame {
 
         labelMenu5.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         labelMenu5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelMenu5.setText("Expresso");
+        labelMenu5.setText("Espresso");
 
         jLabel29.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel29.setText("Jumlah");
@@ -669,7 +668,7 @@ public class MenuPage extends javax.swing.JFrame {
         panelMenu6.setRoundTopRight(10);
 
         hargaMenu6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        hargaMenu6.setText("Rp 69.000");
+        hargaMenu6.setText("Rp 55.000");
 
         picMenu6.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -764,7 +763,7 @@ public class MenuPage extends javax.swing.JFrame {
         jLabel11.setText("Jumlah");
 
         hargaMenu2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        hargaMenu2.setText("Rp 69.000");
+        hargaMenu2.setText("Rp 108.000");
 
         picMenu2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -823,7 +822,7 @@ public class MenuPage extends javax.swing.JFrame {
         panelMenu7.setRoundTopRight(10);
 
         hargaMenu7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        hargaMenu7.setText("Rp 69.000");
+        hargaMenu7.setText("Rp 110.000");
 
         labelMenu7.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         labelMenu7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -905,7 +904,7 @@ public class MenuPage extends javax.swing.JFrame {
         qtyMenu3.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
         hargaMenu3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        hargaMenu3.setText("Rp 69.000");
+        hargaMenu3.setText("Rp 150.000");
 
         picMenu3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -990,7 +989,7 @@ public class MenuPage extends javax.swing.JFrame {
         jLabel24.setText("Tambahkan");
 
         hargaMenu4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        hargaMenu4.setText("Rp 69.000");
+        hargaMenu4.setText("Rp 119.000");
 
         qtyMenu4.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
@@ -1077,7 +1076,7 @@ public class MenuPage extends javax.swing.JFrame {
         picMenu8.setBackground(new java.awt.Color(255, 255, 255));
 
         hargaMenu8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        hargaMenu8.setText("Rp 69.000");
+        hargaMenu8.setText("Rp 130.000");
 
         javax.swing.GroupLayout panelMenu8Layout = new javax.swing.GroupLayout(panelMenu8);
         panelMenu8.setLayout(panelMenu8Layout);
