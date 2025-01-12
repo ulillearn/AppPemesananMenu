@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
@@ -23,20 +22,17 @@ import javax.swing.JTextArea;
 public class MenuPage extends javax.swing.JFrame {
 
     private int subtotal = 0;
-    private int x = 0;
     private double pajak = 0;
     int PPN = 0;
     private int total = 0;
     private int tunai = 0;
     private int kembali = 0;
-    private int qty = 0;
 
     public MenuPage() {
         initComponents();
         setTime();
         setImg();
         setExtendedState(MenuPage.MAXIMIZED_BOTH);
-
     }
 
     public void setTime() {
@@ -55,8 +51,6 @@ public class MenuPage extends javax.swing.JFrame {
     }
 
     public void reset() {
-//Method yang digunakan untuk mereset semua nilai yang ada
-        x = 0;
         subtotal = 0;
         pajak = 0.0;
         PPN = 0;
@@ -71,8 +65,10 @@ public class MenuPage extends javax.swing.JFrame {
         outSubtotal.setText("");
         outPajak.setText("");
         outTotal.setText("");
-        inTunai.setText("");
         outPesanan.setText("");
+        inTunai.setText("");
+        inNamaCust.setText("");
+        inNoMeja.setText("");
         addMenu1.setSelected(false);
         addMenu2.setSelected(false);
         addMenu3.setSelected(false);
@@ -80,6 +76,7 @@ public class MenuPage extends javax.swing.JFrame {
         addMenu5.setSelected(false);
         addMenu8.setSelected(false);
         btnBayar.setEnabled(true);
+        orders.clear();
     }
 
     public void hitung() {
@@ -89,14 +86,6 @@ public class MenuPage extends javax.swing.JFrame {
         outSubtotal.setText("Rp. " + String.valueOf(subtotal));
         outPajak.setText("Rp. " + String.valueOf(PPN));
         outTotal.setText("Rp. " + String.valueOf(total));
-    }
-
-    public void orderList() {
-        //Method yang digunakan untuk mencetak teks di JTextArea
-        outPesanan.setText("******************* Sepanjang Rasa *******************\n"
-                + "Time: " + waktuLabel.getText() + " Date: " + tanggalLabel.getText() + "\n"
-                + "******************************************************" + "\n"
-                + String.format("%-25s%5s%15s", "   Produk", "jumlah", "Total") + "\n");
     }
 
     private List<Map<String, Object>> orders = new ArrayList<>();
@@ -165,24 +154,28 @@ public class MenuPage extends javax.swing.JFrame {
                     "Silakan masukkan jumlah qty yang valid dan centang checkbox!",
                     "Input Tidak Valid",
                     JOptionPane.WARNING_MESSAGE);
+            addMenu.setSelected(false);
         }
     }
 
 // Method untuk memperbarui tampilan di JTextArea
     private void updateOutPesanan() {
-        // Header sesuai format orderList
-        StringBuilder pesananText = new StringBuilder("******************* Sepanjang Rasa *******************\n");
-        pesananText.append("Time: ").append(waktuLabel.getText()).append(" Date: ").append(tanggalLabel.getText()).append("\n");
-        pesananText.append("******************************************************\n");
-        pesananText.append(String.format("%-25s%5s%15s\n", "   Produk", "jumlah", "Total"));
+        // Header sesuai format
+        StringBuilder pesananText = new StringBuilder("***************** Restaurant ****************\n");
+        pesananText.append("Time: ").append(waktuLabel.getText()).append("\n");
+        pesananText.append("Date: ").append(tanggalLabel.getText()).append("\n");
+        pesananText.append("*********************************************\n");
+        pesananText.append(String.format("%-3s%-15s%10s%12s\n", "", "Produk", "jumlah", "Total"));
 
         // Tambahkan setiap pesanan ke dalam JTextArea
+        int no = 1;
         for (Map<String, Object> order : orders) {
             String namaProduk = (String) order.get("nama_produk");
             int qty = (int) order.get("qty");
             int hargaTotal = (int) order.get("harga_total");
 
-            pesananText.append(String.format("%-25s%5d%15d\n", namaProduk, qty, hargaTotal));
+            // Format setiap baris produk
+            pesananText.append(String.format("%-3d%-15s%7d%16d\n", no++, namaProduk, qty, hargaTotal));
         }
 
         // Perbarui tampilan ke JTextArea
@@ -345,8 +338,8 @@ public class MenuPage extends javax.swing.JFrame {
         jLabel51.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel51.setText("Nomor Meja");
 
-        outPesanan.setEditable(false);
         outPesanan.setColumns(20);
+        outPesanan.setFont(new java.awt.Font("Consolas", 0, 13)); // NOI18N
         outPesanan.setRows(5);
         jScrollPane1.setViewportView(outPesanan);
 
@@ -533,7 +526,7 @@ public class MenuPage extends javax.swing.JFrame {
         });
 
         hargaMenu1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        hargaMenu1.setText("Rp 69.000");
+        hargaMenu1.setText("Rp 241.000");
 
         qtyMenu1.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
@@ -600,7 +593,7 @@ public class MenuPage extends javax.swing.JFrame {
         picMenu5.setBackground(new java.awt.Color(255, 255, 255));
 
         hargaMenu5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        hargaMenu5.setText("Rp 69.000");
+        hargaMenu5.setText("Rp 45.000");
 
         jLabel30.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel30.setText("Tambahkan");
@@ -669,7 +662,7 @@ public class MenuPage extends javax.swing.JFrame {
         panelMenu6.setRoundTopRight(10);
 
         hargaMenu6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        hargaMenu6.setText("Rp 69.000");
+        hargaMenu6.setText("Rp 55.000");
 
         picMenu6.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -764,7 +757,7 @@ public class MenuPage extends javax.swing.JFrame {
         jLabel11.setText("Jumlah");
 
         hargaMenu2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        hargaMenu2.setText("Rp 69.000");
+        hargaMenu2.setText("Rp 108.000");
 
         picMenu2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -823,7 +816,7 @@ public class MenuPage extends javax.swing.JFrame {
         panelMenu7.setRoundTopRight(10);
 
         hargaMenu7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        hargaMenu7.setText("Rp 69.000");
+        hargaMenu7.setText("Rp 110.000");
 
         labelMenu7.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         labelMenu7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -905,7 +898,7 @@ public class MenuPage extends javax.swing.JFrame {
         qtyMenu3.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
         hargaMenu3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        hargaMenu3.setText("Rp 69.000");
+        hargaMenu3.setText("Rp 150.000");
 
         picMenu3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -990,7 +983,7 @@ public class MenuPage extends javax.swing.JFrame {
         jLabel24.setText("Tambahkan");
 
         hargaMenu4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        hargaMenu4.setText("Rp 69.000");
+        hargaMenu4.setText("Rp 119.000");
 
         qtyMenu4.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
@@ -1077,7 +1070,7 @@ public class MenuPage extends javax.swing.JFrame {
         picMenu8.setBackground(new java.awt.Color(255, 255, 255));
 
         hargaMenu8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        hargaMenu8.setText("Rp 69.000");
+        hargaMenu8.setText("Rp 130.000");
 
         javax.swing.GroupLayout panelMenu8Layout = new javax.swing.GroupLayout(panelMenu8);
         panelMenu8.setLayout(panelMenu8Layout);
@@ -1280,17 +1273,16 @@ public class MenuPage extends javax.swing.JFrame {
 
                 // Tambahkan detail pelanggan dan meja ke outPesanan
                 StringBuilder pesananText = new StringBuilder(outPesanan.getText());
-                pesananText.append("\n\n********************* Detail Transaksi *********************\n")
-                        .append("ID Transaksi: ").append(idTransaksi).append("\n")
-                        .append("Nama Pelanggan: ").append(namaPelanggan).append("\n")
-                        .append("Nomor Meja: ").append(inputMeja).append(" (").append(namaMeja).append(")\n")
-                        .append("Tanggal: ").append(formattedDate).append("\n")
-                        .append("\nSubtotal: Rp ").append(subtotal)
-                        .append("\nPajak 11%: Rp ").append(PPN)
-                        .append("\nTotal: Rp ").append(total)
-                        .append("\nTunai: Rp ").append(tunai)
-                        .append("\nKembalian: Rp ").append(kembali)
-                        .append("\n********************* Terima Kasih *********************\n");
+                pesananText.append("\n\n************** Detail Transaksi *************\n")
+                        .append("ID  : ").append(idTransaksi).append("\n")
+                        .append("Nama: ").append(namaPelanggan).append("\n")
+                        .append("Meja: ").append(inputMeja).append("\n")
+                        .append("\nSubtotal : Rp ").append(String.format("%,d", subtotal))
+                        .append("\nPajak 11%: Rp ").append(String.format("%,d", PPN))
+                        .append("\nTotal    : Rp ").append(String.format("%,d", total))
+                        .append("\nTunai    : Rp ").append(String.format("%,d", tunai))
+                        .append("\nKembalian: Rp ").append(String.format("%,d", kembali))
+                        .append("\n**************** Terima Kasih ***************\n");
                 outPesanan.setText(pesananText.toString());
 
                 JOptionPane.showMessageDialog(null, "Transaksi berhasil!");
@@ -1317,7 +1309,7 @@ public class MenuPage extends javax.swing.JFrame {
         try {
             JTextArea printTextArea = new JTextArea();
             printTextArea.setText(outPesanan.getText());
-            printTextArea.setFont(new java.awt.Font("Consolas", java.awt.Font.PLAIN, 9));
+            printTextArea.setFont(new java.awt.Font("Consolas", java.awt.Font.PLAIN, 10));
             printTextArea.print();
         } catch (PrinterException ex) {
             Logger.getLogger(MenuPage.class.getName()).log(Level.SEVERE, null, ex);
