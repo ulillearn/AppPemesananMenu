@@ -195,7 +195,7 @@
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="20" max="32767" attributes="0"/>
+                  <EmptySpace pref="21" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -613,7 +613,7 @@
                   <Font name="Segoe UI" size="17" style="1"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Combo Meals"/>
+                <Property name="text" type="java.lang.String" value="Combo Sharing Meals"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
@@ -781,7 +781,7 @@
                   <Font name="Segoe UI" size="17" style="1"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Expresso"/>
+                <Property name="text" type="java.lang.String" value="Espresso"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel29">
