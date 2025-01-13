@@ -51,9 +51,6 @@ public class MenuPage extends javax.swing.JFrame {
     }
 
     public void reset() {
-
-        //Method yang digunakan untuk mereset semua nilai yang ada
-        x = 0;
         subtotal = 0;
         pajak = 0.0;
         PPN = 0;
@@ -290,7 +287,9 @@ public class MenuPage extends javax.swing.JFrame {
         hargaMenu8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Menu Restoran");
         setBackground(new java.awt.Color(255, 242, 232));
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Image/iconSR.jpg")).getImage());
 
         topPanel.setBackground(new java.awt.Color(255, 255, 255));
         topPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(159, 159, 158)));
@@ -345,6 +344,7 @@ public class MenuPage extends javax.swing.JFrame {
         jLabel51.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel51.setText("Nomor Meja");
 
+        outPesanan.setEditable(false);
         outPesanan.setColumns(20);
         outPesanan.setFont(new java.awt.Font("Consolas", 0, 13)); // NOI18N
         outPesanan.setRows(5);
@@ -518,7 +518,7 @@ public class MenuPage extends javax.swing.JFrame {
 
         labelMenu1.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         labelMenu1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelMenu1.setText("Combo Sharing Meals");
+        labelMenu1.setText("Combo Sharing");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Harga");
