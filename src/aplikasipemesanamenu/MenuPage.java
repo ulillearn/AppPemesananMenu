@@ -172,19 +172,22 @@ public class MenuPage extends javax.swing.JFrame {
 
 // Method untuk memperbarui tampilan di JTextArea
     private void updateOutPesanan() {
-        // Header sesuai format orderList
-        StringBuilder pesananText = new StringBuilder("******************* Sepanjang Rasa *******************\n");
-        pesananText.append("Time: ").append(waktuLabel.getText()).append(" Date: ").append(tanggalLabel.getText()).append("\n");
-        pesananText.append("******************************************************\n");
-        pesananText.append(String.format("%-25s%5s%15s\n", "   Produk", "jumlah", "Total"));
+        // Header sesuai format
+        StringBuilder pesananText = new StringBuilder("***************** Restaurant ****************\n");
+        pesananText.append("Time: ").append(waktuLabel.getText()).append("\n");
+        pesananText.append("Date: ").append(tanggalLabel.getText()).append("\n");
+        pesananText.append("*********************************************\n");
+        pesananText.append(String.format("%-3s%-15s%10s%12s\n", "", "Produk", "jumlah", "Total"));
 
         // Tambahkan setiap pesanan ke dalam JTextArea
+        int no = 1;
         for (Map<String, Object> order : orders) {
             String namaProduk = (String) order.get("nama_produk");
             int qty = (int) order.get("qty");
             int hargaTotal = (int) order.get("harga_total");
 
-            pesananText.append(String.format("%-25s%5d%15d\n", namaProduk, qty, hargaTotal));
+            // Format setiap baris produk
+            pesananText.append(String.format("%-3d%-15s%7d%16d\n", no++, namaProduk, qty, hargaTotal));
         }
 
         // Perbarui tampilan ke JTextArea
@@ -349,6 +352,7 @@ public class MenuPage extends javax.swing.JFrame {
 
         outPesanan.setEditable(false);
         outPesanan.setColumns(20);
+        outPesanan.setFont(new java.awt.Font("Consolas", 0, 13)); // NOI18N
         outPesanan.setRows(5);
         jScrollPane1.setViewportView(outPesanan);
 
@@ -463,7 +467,7 @@ public class MenuPage extends javax.swing.JFrame {
                                 .addGap(25, 25, 25)
                                 .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(inTunai, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         rightPanelLayout.setVerticalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1290,17 +1294,16 @@ public class MenuPage extends javax.swing.JFrame {
 
                 // Tambahkan detail pelanggan dan meja ke outPesanan
                 StringBuilder pesananText = new StringBuilder(outPesanan.getText());
-                pesananText.append("\n\n********************* Detail Transaksi *********************\n")
-                        .append("ID Transaksi: ").append(idTransaksi).append("\n")
-                        .append("Nama Pelanggan: ").append(namaPelanggan).append("\n")
-                        .append("Nomor Meja: ").append(inputMeja).append(" (").append(namaMeja).append(")\n")
-                        .append("Tanggal: ").append(formattedDate).append("\n")
-                        .append("\nSubtotal: Rp ").append(subtotal)
-                        .append("\nPajak 11%: Rp ").append(PPN)
-                        .append("\nTotal: Rp ").append(total)
-                        .append("\nTunai: Rp ").append(tunai)
-                        .append("\nKembalian: Rp ").append(kembali)
-                        .append("\n********************* Terima Kasih *********************\n");
+                pesananText.append("\n\n************** Detail Transaksi *************\n")
+                        .append("ID  : ").append(idTransaksi).append("\n")
+                        .append("Nama: ").append(namaPelanggan).append("\n")
+                        .append("Meja: ").append(inputMeja).append("\n")
+                        .append("\nSubtotal : Rp ").append(String.format("%,d", subtotal))
+                        .append("\nPajak 11%: Rp ").append(String.format("%,d", PPN))
+                        .append("\nTotal    : Rp ").append(String.format("%,d", total))
+                        .append("\nTunai    : Rp ").append(String.format("%,d", tunai))
+                        .append("\nKembalian: Rp ").append(String.format("%,d", kembali))
+                        .append("\n**************** Terima Kasih ***************\n");
                 outPesanan.setText(pesananText.toString());
 
                 JOptionPane.showMessageDialog(null, "Transaksi berhasil!");
