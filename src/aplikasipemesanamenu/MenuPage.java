@@ -1229,12 +1229,6 @@ public class MenuPage extends javax.swing.JFrame {
                     return;
                 }
 
-                // Totalkan qty untuk semua pesanan
-                int totalQty = 0;
-                for (Map<String, Object> order : orders) {
-                    totalQty += (int) order.get("qty");
-                }
-
                 // Format tanggal dan waktu untuk ID Transaksi
                 SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyyHHmm");
                 Date date = new Date(); // Tanggal dan waktu saat ini
@@ -1245,24 +1239,38 @@ public class MenuPage extends javax.swing.JFrame {
                 String formattedDate = formatterDateTrx.format(new Date());
 
                 // Query SQL untuk insert ke tb_transaksi
-                String queryInsertTransaksi = "INSERT INTO tb_transaksi (id_transaksi, id_produk, id_meja, nama_pel, tgl_transaksi, qty, subtotal, ppn, total_harga, tunai, kembalian, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                String queryInsertTransaksi = "INSERT INTO tb_transaksi (id_transaksi, id_meja, nama_pel, tgl_transaksi, subtotal, ppn, total_harga, tunai, kembalian, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                 PreparedStatement stmtInsertTransaksi = conn.prepareStatement(queryInsertTransaksi);
+                stmtInsertTransaksi.setString(1, idTransaksi);
+                stmtInsertTransaksi.setString(2, inputMeja);
+                stmtInsertTransaksi.setString(3, namaPelanggan);
+                stmtInsertTransaksi.setString(4, formattedDate);
+                stmtInsertTransaksi.setInt(5, subtotal);
+                stmtInsertTransaksi.setInt(6, PPN);
+                stmtInsertTransaksi.setInt(7, total);
+                stmtInsertTransaksi.setInt(8, tunai);
+                stmtInsertTransaksi.setInt(9, kembali);
+                stmtInsertTransaksi.setInt(10, 1); // Status pembayaran selesai
+                stmtInsertTransaksi.executeUpdate();
 
+                // Query SQL untuk insert ke tb_pesanan
+                String queryInsertPesanan = "INSERT INTO tb_pesanan (id_transaksi, id_produk, qty) VALUES (?, ?, ?)";
+                PreparedStatement stmtInsertPesanan = conn.prepareStatement(queryInsertPesanan);
+
+                // Loop melalui setiap produk dalam pesanan
                 for (Map<String, Object> order : orders) {
-                    stmtInsertTransaksi.setString(1, idTransaksi);
-                    stmtInsertTransaksi.setInt(2, (int) order.get("id_produk"));
-                    stmtInsertTransaksi.setString(3, inputMeja);
-                    stmtInsertTransaksi.setString(4, namaPelanggan);
-                    stmtInsertTransaksi.setString(5, formattedDate);
-                    stmtInsertTransaksi.setInt(6, (int) order.get("qty"));
-                    stmtInsertTransaksi.setInt(7, subtotal);
-                    stmtInsertTransaksi.setInt(8, PPN);
-                    stmtInsertTransaksi.setInt(9, total);
-                    stmtInsertTransaksi.setInt(10, tunai);
-                    stmtInsertTransaksi.setInt(11, kembali);
-                    stmtInsertTransaksi.setInt(12, 1); // Status pembayaran selesai
-                    stmtInsertTransaksi.executeUpdate();
+                    // Ambil data id_produk dan qty untuk masing-masing produk
+                    int idProduk = (int) order.get("id_produk");
+                    int qty = (int) order.get("qty"); // Ambil qty langsung dari data pesanan
+
+                    // Set nilai parameter untuk query SQL
+                    stmtInsertPesanan.setString(1, idTransaksi); // ID transaksi
+                    stmtInsertPesanan.setInt(2, idProduk);      // ID produk
+                    stmtInsertPesanan.setInt(3, qty);           // Jumlah qty untuk produk ini
+
+                    // Eksekusi query untuk setiap produk
+                    stmtInsertPesanan.executeUpdate();
                 }
 
                 // Update status meja menjadi tidak tersedia
