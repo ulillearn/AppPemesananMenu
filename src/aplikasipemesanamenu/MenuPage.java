@@ -22,20 +22,17 @@ import javax.swing.JTextArea;
 public class MenuPage extends javax.swing.JFrame {
 
     private int subtotal = 0;
-    private int x = 0;
     private double pajak = 0;
     int PPN = 0;
     private int total = 0;
     private int tunai = 0;
     private int kembali = 0;
-    private int qty = 0;
 
     public MenuPage() {
         initComponents();
         setTime();
         setImg();
         setExtendedState(MenuPage.MAXIMIZED_BOTH);
-
     }
 
     public void setTime() {
@@ -54,6 +51,7 @@ public class MenuPage extends javax.swing.JFrame {
     }
 
     public void reset() {
+
         //Method yang digunakan untuk mereset semua nilai yang ada
         x = 0;
         subtotal = 0;
@@ -74,6 +72,9 @@ public class MenuPage extends javax.swing.JFrame {
         inNoMeja.setText("");
         inTunai.setText("");
         outPesanan.setText("");
+        inTunai.setText("");
+        inNamaCust.setText("");
+        inNoMeja.setText("");
         addMenu1.setSelected(false);
         addMenu2.setSelected(false);
         addMenu3.setSelected(false);
@@ -81,6 +82,7 @@ public class MenuPage extends javax.swing.JFrame {
         addMenu5.setSelected(false);
         addMenu8.setSelected(false);
         // Reset list pesanan
+        btnBayar.setEnabled(true);
         orders.clear();
     }
 
@@ -91,14 +93,6 @@ public class MenuPage extends javax.swing.JFrame {
         outSubtotal.setText("Rp. " + String.valueOf(subtotal));
         outPajak.setText("Rp. " + String.valueOf(PPN));
         outTotal.setText("Rp. " + String.valueOf(total));
-    }
-
-    public void orderList() {
-        //Method yang digunakan untuk mencetak teks di JTextArea
-        outPesanan.setText("******************* Sepanjang Rasa *******************\n"
-                + "Time: " + waktuLabel.getText() + " Date: " + tanggalLabel.getText() + "\n"
-                + "******************************************************" + "\n"
-                + String.format("%-25s%5s%15s", "   Produk", "jumlah", "Total") + "\n");
     }
 
     private List<Map<String, Object>> orders = new ArrayList<>();
@@ -167,6 +161,7 @@ public class MenuPage extends javax.swing.JFrame {
                     "Silakan masukkan jumlah qty yang valid dan centang checkbox!",
                     "Input Tidak Valid",
                     JOptionPane.WARNING_MESSAGE);
+            addMenu.setSelected(false);
         }
     }
 
@@ -350,7 +345,6 @@ public class MenuPage extends javax.swing.JFrame {
         jLabel51.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel51.setText("Nomor Meja");
 
-        outPesanan.setEditable(false);
         outPesanan.setColumns(20);
         outPesanan.setFont(new java.awt.Font("Consolas", 0, 13)); // NOI18N
         outPesanan.setRows(5);
@@ -1330,7 +1324,7 @@ public class MenuPage extends javax.swing.JFrame {
         try {
             JTextArea printTextArea = new JTextArea();
             printTextArea.setText(outPesanan.getText());
-            printTextArea.setFont(new java.awt.Font("Consolas", java.awt.Font.PLAIN, 9));
+            printTextArea.setFont(new java.awt.Font("Consolas", java.awt.Font.PLAIN, 10));
             printTextArea.print();
         } catch (PrinterException ex) {
             Logger.getLogger(MenuPage.class.getName()).log(Level.SEVERE, null, ex);

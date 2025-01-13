@@ -278,7 +278,6 @@
           <SubComponents>
             <Component class="javax.swing.JTextArea" name="outPesanan">
               <Properties>
-                <Property name="editable" type="boolean" value="false"/>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Consolas" size="13" style="0"/>
