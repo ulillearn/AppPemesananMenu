@@ -61,6 +61,8 @@ public class MenuPage extends javax.swing.JFrame {
         qtyMenu3.setValue(0);
         qtyMenu4.setValue(0);
         qtyMenu5.setValue(0);
+        qtyMenu6.setValue(0);
+        qtyMenu7.setValue(0);
         qtyMenu8.setValue(0);
         outSubtotal.setText("");
         outPajak.setText("");
@@ -77,6 +79,8 @@ public class MenuPage extends javax.swing.JFrame {
         addMenu3.setSelected(false);
         addMenu4.setSelected(false);
         addMenu5.setSelected(false);
+        addMenu6.setSelected(false);
+        addMenu7.setSelected(false);
         addMenu8.setSelected(false);
         // Reset list pesanan
         btnBayar.setEnabled(true);
