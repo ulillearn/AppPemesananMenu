@@ -1,4 +1,4 @@
-package aplikasipemesanamenu;
+package aplikasipemesananmenu;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

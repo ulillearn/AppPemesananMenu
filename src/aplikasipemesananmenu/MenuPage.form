@@ -43,11 +43,8 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="topPanel" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="rightPanel" pref="719" max="32767" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <Component id="panelBG" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="rightPanel" pref="725" max="32767" attributes="0"/>
+                  <Component id="panelBG" max="32767" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -78,9 +75,9 @@
                   <EmptySpace min="-2" pref="360" max="-2" attributes="0"/>
                   <Component id="jLabel61" min="-2" pref="403" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="waktuLabel" alignment="1" min="-2" pref="150" max="-2" attributes="0"/>
-                      <Component id="tanggalLabel" alignment="1" min="-2" pref="150" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="waktuLabel" pref="260" max="32767" attributes="0"/>
+                      <Component id="tanggalLabel" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
               </Group>
@@ -245,7 +242,7 @@
                           <Component id="inTunai" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="50" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnReset" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnPrint" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -522,14 +519,14 @@
                       <Component id="panelMenu3" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="panelMenu4" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="44" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="panelMenu6" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="panelMenu5" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="panelMenu7" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="panelMenu8" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
