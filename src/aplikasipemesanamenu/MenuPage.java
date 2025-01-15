@@ -82,8 +82,8 @@ public class MenuPage extends javax.swing.JFrame {
         addMenu6.setSelected(false);
         addMenu7.setSelected(false);
         addMenu8.setSelected(false);
-        // Reset list pesanan
         btnBayar.setEnabled(true);
+        // Reset list pesanan
         orders.clear();
     }
 
@@ -168,7 +168,7 @@ public class MenuPage extends javax.swing.JFrame {
 
 // Method untuk memperbarui tampilan di JTextArea
     private void updateOutPesanan() {
-        // Header sesuai format
+        // Header Nota Transaksi
         StringBuilder pesananText = new StringBuilder("***************** Restaurant ****************\n");
         pesananText.append("Time: ").append(waktuLabel.getText()).append("\n");
         pesananText.append("Date: ").append(tanggalLabel.getText()).append("\n");
@@ -1268,8 +1268,8 @@ public class MenuPage extends javax.swing.JFrame {
 
                     // Set nilai parameter untuk query SQL
                     stmtInsertPesanan.setString(1, idTransaksi); // ID transaksi
-                    stmtInsertPesanan.setInt(2, idProduk);      // ID produk
-                    stmtInsertPesanan.setInt(3, qty);           // Jumlah qty untuk produk ini
+                    stmtInsertPesanan.setInt(2, idProduk); // ID produk
+                    stmtInsertPesanan.setInt(3, qty); // Jumlah qty untuk produk ini
 
                     // Eksekusi query untuk setiap produk
                     stmtInsertPesanan.executeUpdate();
@@ -1290,7 +1290,7 @@ public class MenuPage extends javax.swing.JFrame {
                     stmtUpdateStok.executeUpdate();
                 }
 
-                // Tambahkan detail pelanggan dan meja ke outPesanan
+                // Tambahkan detail pelanggan dan meja ke jTextArea
                 StringBuilder pesananText = new StringBuilder(outPesanan.getText());
                 pesananText.append("\n\n************** Detail Transaksi *************\n")
                         .append("ID  : ").append(idTransaksi).append("\n")
@@ -1340,7 +1340,7 @@ public class MenuPage extends javax.swing.JFrame {
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void inTunaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inTunaiActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_inTunaiActionPerformed
 
     private void addMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMenu1ActionPerformed

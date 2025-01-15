@@ -12,7 +12,7 @@ public class Panel extends JPanel {
     private int roundTopRight = 0;
     private int roundBottomLeft = 0;
     private int roundBottomRight = 0;
-    private float transparency = 1.0f; // Nilai transparansi 1.0 berarti 100% opaque
+    private float transparency = 1.0f;
 
     public Panel() {
         setOpaque(false);
