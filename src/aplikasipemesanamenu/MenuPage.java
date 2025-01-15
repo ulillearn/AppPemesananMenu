@@ -1062,7 +1062,7 @@ public class MenuPage extends javax.swing.JFrame {
 
         labelMenu8.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         labelMenu8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelMenu8.setText("Creme Crumblee");
+        labelMenu8.setText("Creme Brulee");
 
         addMenu8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

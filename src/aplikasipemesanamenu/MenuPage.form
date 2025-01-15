@@ -1543,7 +1543,7 @@
                   <Font name="Segoe UI" size="17" style="1"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Creme Crumblee"/>
+                <Property name="text" type="java.lang.String" value="Creme Brulee"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="addMenu8">
