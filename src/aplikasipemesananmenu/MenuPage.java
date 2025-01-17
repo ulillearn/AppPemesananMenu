@@ -1,5 +1,6 @@
-package aplikasipemesananmenu;
+package aplikasipemesanamenu;
 
+import java.awt.Font;
 import java.awt.print.PrinterException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,6 +31,7 @@ public class MenuPage extends javax.swing.JFrame {
 
     public MenuPage() {
         initComponents();
+        addPlaceholders();
         setTime();
         setImg();
         setExtendedState(MenuPage.MAXIMIZED_BOTH);
@@ -42,10 +44,10 @@ public class MenuPage extends javax.swing.JFrame {
     public void setImg() {
         MethodClass.setIconLabel(picMenu1, "/Image/1combomeals.jpg");
         MethodClass.setIconLabel(picMenu2, "/Image/1chickencombo.jpg");
-        MethodClass.setIconLabel(picMenu3, "/Image/1tbone.jpg");
+        MethodClass.setIconLabel(picMenu3, "/Image/1Tbone.jpg");
         MethodClass.setIconLabel(picMenu4, "/Image/1ribeye.jpg");
-        MethodClass.setIconLabel(picMenu5, "/Image/2espresso.jpg");
-        MethodClass.setIconLabel(picMenu6, "/Image/2lemoncucumber.jpg");
+        MethodClass.setIconLabel(picMenu5, "/Image/2Expresso.jpg");
+        MethodClass.setIconLabel(picMenu6, "/Image/2Lemoncucumber.jpg");
         MethodClass.setIconLabel(picMenu7, "/Image/3applecrumble.jpg");
         MethodClass.setIconLabel(picMenu8, "/Image/3cremebrulee.jpg");
     }
@@ -82,8 +84,8 @@ public class MenuPage extends javax.swing.JFrame {
         addMenu6.setSelected(false);
         addMenu7.setSelected(false);
         addMenu8.setSelected(false);
-        btnBayar.setEnabled(true);
         // Reset list pesanan
+        btnBayar.setEnabled(true);
         orders.clear();
     }
 
@@ -168,7 +170,7 @@ public class MenuPage extends javax.swing.JFrame {
 
 // Method untuk memperbarui tampilan di JTextArea
     private void updateOutPesanan() {
-        // Header Nota Transaksi
+        // Header sesuai format
         StringBuilder pesananText = new StringBuilder("***************** Restaurant ****************\n");
         pesananText.append("Time: ").append(waktuLabel.getText()).append("\n");
         pesananText.append("Date: ").append(tanggalLabel.getText()).append("\n");
@@ -188,6 +190,18 @@ public class MenuPage extends javax.swing.JFrame {
 
         // Perbarui tampilan ke JTextArea
         outPesanan.setText(pesananText.toString());
+    }
+
+    private void addPlaceholders() {
+        TextPrompt tpNama = new TextPrompt(" Masukkan nama anda.....", inNamaCust);
+        TextPrompt tpMeja = new TextPrompt(" Masukkan no meja....", inNoMeja);
+        TextPrompt tpTunai = new TextPrompt(" Masukkan nominal tunai....", inTunai);
+
+        // Atur font placeholder menjadi Arial, ukuran 10, Plain
+        Font placeholderFont = new Font("Arial", Font.PLAIN, 12);
+        tpNama.setPromptFont(placeholderFont);
+        tpMeja.setPromptFont(placeholderFont);
+        tpTunai.setPromptFont(placeholderFont);
     }
 
     @SuppressWarnings("unchecked")
@@ -293,7 +307,7 @@ public class MenuPage extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu Restoran");
         setBackground(new java.awt.Color(255, 242, 232));
-        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Image/icon.jpg")).getImage());
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Image/iconSR.jpg")).getImage());
 
         topPanel.setBackground(new java.awt.Color(255, 255, 255));
         topPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(159, 159, 158)));
@@ -305,10 +319,12 @@ public class MenuPage extends javax.swing.JFrame {
         jLabel61.setText("Menu Restoran");
 
         waktuLabel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        waktuLabel.setForeground(new java.awt.Color(159, 159, 158));
         waktuLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         waktuLabel.setPreferredSize(new java.awt.Dimension(60, 22));
 
         tanggalLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tanggalLabel.setForeground(new java.awt.Color(159, 159, 158));
         tanggalLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         tanggalLabel.setPreferredSize(new java.awt.Dimension(60, 22));
 
@@ -320,9 +336,9 @@ public class MenuPage extends javax.swing.JFrame {
                 .addGap(360, 360, 360)
                 .addComponent(jLabel61, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(waktuLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
-                    .addComponent(tanggalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(waktuLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tanggalLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17))
         );
         topPanelLayout.setVerticalGroup(
@@ -332,10 +348,10 @@ public class MenuPage extends javax.swing.JFrame {
                 .addGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(topPanelLayout.createSequentialGroup()
                         .addComponent(waktuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(3, 3, 3)
                         .addComponent(tanggalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel61, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         rightPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -349,6 +365,7 @@ public class MenuPage extends javax.swing.JFrame {
         jLabel51.setText("Nomor Meja");
 
         outPesanan.setEditable(false);
+        outPesanan.setBackground(new java.awt.Color(255, 255, 255));
         outPesanan.setColumns(20);
         outPesanan.setFont(new java.awt.Font("Consolas", 0, 13)); // NOI18N
         outPesanan.setRows(5);
@@ -365,12 +382,15 @@ public class MenuPage extends javax.swing.JFrame {
 
         outSubtotal.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         outSubtotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(159, 159, 158)));
+        outSubtotal.setPreferredSize(new java.awt.Dimension(64, 25));
 
         outPajak.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         outPajak.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(159, 159, 158)));
+        outPajak.setPreferredSize(new java.awt.Dimension(64, 25));
 
-        outTotal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        outTotal.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         outTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(159, 159, 158)));
+        outTotal.setPreferredSize(new java.awt.Dimension(64, 25));
 
         jLabel59.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel59.setText("Tunai");
@@ -425,6 +445,15 @@ public class MenuPage extends javax.swing.JFrame {
             }
         });
 
+        inNamaCust.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        inNamaCust.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(159, 159, 158)));
+
+        inNoMeja.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        inNoMeja.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(159, 159, 158)));
+
+        inTunai.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        inTunai.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(159, 159, 158)));
+        inTunai.setPreferredSize(new java.awt.Dimension(64, 25));
         inTunai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inTunaiActionPerformed(evt);
@@ -464,44 +493,41 @@ public class MenuPage extends javax.swing.JFrame {
                                 .addComponent(btnBayar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(25, 25, 25)
                                 .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(inTunai, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addComponent(inTunai, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         rightPanelLayout.setVerticalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightPanelLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel49, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inNamaCust, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4)
-                .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inNoMeja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15)
+                .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(inNamaCust, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                    .addComponent(jLabel49, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(inNoMeja, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                    .addComponent(jLabel51, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
-                .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(rightPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel53, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8)
-                        .addComponent(jLabel54, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8)
-                        .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(rightPanelLayout.createSequentialGroup()
-                        .addComponent(outSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8)
-                        .addComponent(outPajak, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8)
-                        .addComponent(outTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(rightPanelLayout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(jLabel59, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(rightPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel53, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(inTunai)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                        .addComponent(jLabel54, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel55, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(rightPanelLayout.createSequentialGroup()
+                        .addComponent(outSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(outPajak, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(outTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(inTunai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel59, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1062,7 +1088,7 @@ public class MenuPage extends javax.swing.JFrame {
 
         labelMenu8.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         labelMenu8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelMenu8.setText("Creme Brulee");
+        labelMenu8.setText("Creme Crumblee");
 
         addMenu8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1161,13 +1187,13 @@ public class MenuPage extends javax.swing.JFrame {
                     .addComponent(panelMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelMenu3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelMenu4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(panelBGLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelMenu6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelMenu5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelMenu7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelMenu8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(56, 56, 56))
+                .addGap(50, 50, 50))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1185,8 +1211,10 @@ public class MenuPage extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(topPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rightPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE)
-                    .addComponent(panelBG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(rightPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(panelBG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         pack();
@@ -1266,8 +1294,8 @@ public class MenuPage extends javax.swing.JFrame {
 
                     // Set nilai parameter untuk query SQL
                     stmtInsertPesanan.setString(1, idTransaksi); // ID transaksi
-                    stmtInsertPesanan.setInt(2, idProduk); // ID produk
-                    stmtInsertPesanan.setInt(3, qty); // Jumlah qty untuk produk ini
+                    stmtInsertPesanan.setInt(2, idProduk);      // ID produk
+                    stmtInsertPesanan.setInt(3, qty);           // Jumlah qty untuk produk ini
 
                     // Eksekusi query untuk setiap produk
                     stmtInsertPesanan.executeUpdate();
@@ -1288,7 +1316,7 @@ public class MenuPage extends javax.swing.JFrame {
                     stmtUpdateStok.executeUpdate();
                 }
 
-                // Tambahkan detail pelanggan dan meja ke jTextArea
+                // Tambahkan detail pelanggan dan meja ke outPesanan
                 StringBuilder pesananText = new StringBuilder(outPesanan.getText());
                 pesananText.append("\n\n************** Detail Transaksi *************\n")
                         .append("ID  : ").append(idTransaksi).append("\n")
@@ -1338,7 +1366,7 @@ public class MenuPage extends javax.swing.JFrame {
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void inTunaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inTunaiActionPerformed
-        
+        // TODO add your handling code here:
     }//GEN-LAST:event_inTunaiActionPerformed
 
     private void addMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMenu1ActionPerformed
