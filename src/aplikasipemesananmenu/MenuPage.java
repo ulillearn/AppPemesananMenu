@@ -308,7 +308,6 @@ public class MenuPage extends javax.swing.JFrame {
         setTitle("Menu Restoran");
         setBackground(new java.awt.Color(255, 242, 232));
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Image/icon.jpg")).getImage());
-
         topPanel.setBackground(new java.awt.Color(255, 255, 255));
         topPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(159, 159, 158)));
         topPanel.setPreferredSize(new java.awt.Dimension(1540, 80));
