@@ -1,4 +1,4 @@
-package aplikasipemesanamenu;
+package aplikasipemesananmenu;
 
 import java.awt.Font;
 import java.awt.print.PrinterException;
