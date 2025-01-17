@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 15, 2025 at 06:02 AM
+-- Generation Time: Jan 18, 2025 at 12:39 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -58,7 +58,7 @@ INSERT INTO `tb_meja` (`id_meja`, `nama`, `kapasitas`, `status`) VALUES
 --
 
 CREATE TABLE `tb_pesanan` (
-  `id_pesanan` int(11) NOT NULL,
+  `id_pesanan` int(6) NOT NULL,
   `id_transaksi` varchar(15) NOT NULL,
   `id_produk` int(3) NOT NULL,
   `qty` int(5) NOT NULL
@@ -149,7 +149,7 @@ ALTER TABLE `tb_transaksi`
 -- AUTO_INCREMENT for table `tb_pesanan`
 --
 ALTER TABLE `tb_pesanan`
-  MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id_pesanan` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- Constraints for dumped tables
