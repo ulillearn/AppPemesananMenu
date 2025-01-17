@@ -44,10 +44,10 @@ public class MenuPage extends javax.swing.JFrame {
     public void setImg() {
         MethodClass.setIconLabel(picMenu1, "/Image/1combomeals.jpg");
         MethodClass.setIconLabel(picMenu2, "/Image/1chickencombo.jpg");
-        MethodClass.setIconLabel(picMenu3, "/Image/1Tbone.jpg");
+        MethodClass.setIconLabel(picMenu3, "/Image/1tbone.jpg");
         MethodClass.setIconLabel(picMenu4, "/Image/1ribeye.jpg");
-        MethodClass.setIconLabel(picMenu5, "/Image/2Expresso.jpg");
-        MethodClass.setIconLabel(picMenu6, "/Image/2Lemoncucumber.jpg");
+        MethodClass.setIconLabel(picMenu5, "/Image/2espresso.jpg");
+        MethodClass.setIconLabel(picMenu6, "/Image/2lemoncucumber.jpg");
         MethodClass.setIconLabel(picMenu7, "/Image/3applecrumble.jpg");
         MethodClass.setIconLabel(picMenu8, "/Image/3cremebrulee.jpg");
     }
@@ -307,8 +307,7 @@ public class MenuPage extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu Restoran");
         setBackground(new java.awt.Color(255, 242, 232));
-        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Image/iconSR.jpg")).getImage());
-
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Image/icon.jpg")).getImage());
         topPanel.setBackground(new java.awt.Color(255, 255, 255));
         topPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(159, 159, 158)));
         topPanel.setPreferredSize(new java.awt.Dimension(1540, 80));

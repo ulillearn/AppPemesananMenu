@@ -136,4 +136,3 @@ public class TextPrompt extends JLabel implements FocusListener, DocumentListene
     public void changedUpdate(DocumentEvent e) {
     }
 }
-
